@@ -13,7 +13,7 @@ typedef struct _task Task;
 
 void init_tasks(void);
 
-void create_task(char *title, Status status);
+void create_task(void);
 
 void delete_task(void);
 
