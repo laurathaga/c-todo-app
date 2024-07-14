@@ -1,1 +1,1 @@
-# c-todo-app
+# A terminal todo app in C

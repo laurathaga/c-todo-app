@@ -1,7 +1,7 @@
 #include "../headers/common.h"
 #include <stdio.h>
 
-void read_line(void *des)
+void read_line(char *des)
 {
   int ch = getchar();
 
