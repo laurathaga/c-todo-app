@@ -18,3 +18,5 @@ void create_task(char *title, Status status);
 void delete_task(void);
 
 Task *find_task(char *title);
+
+void handle_op(char *op);
