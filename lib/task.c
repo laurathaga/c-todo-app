@@ -4,6 +4,7 @@
 #include "../headers/task.h"
 #include "../headers/common.h"
 
+#define FILE_NAME "/db.txt"
 #define BUFFER_SIZE 10
 
 size_t id_index = 1;
@@ -55,6 +56,29 @@ void create_task(void)
   task->status = status;
 
   *tasks_ptr++ = task;
+
+  insert_row(task);
+}
+
+void insert_row(Task *task)
+{
+  FILE *file;
+
+  file = fopen(FILE_NAME, "a");
+
+  if (file == NULL) 
+  {
+    printf("Could not open file %s\n", FILE_NAME);
+    exit(EXIT_FAILURE);
+  }
+
+  fprintf(file, to_char(task->id));
+  fprintf(file, task->title);
+  fprintf(file, to_char(task->status));
+  fprintf(file, "\n");
+
+  fclose(file);
+  file = NULL;
 }
 
 void handle_op(char *op)

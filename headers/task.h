@@ -11,6 +11,8 @@ struct _task {
 
 typedef struct _task Task;
 
+void insert_row(Task *task);
+
 void init_tasks(void);
 
 void create_task(void);

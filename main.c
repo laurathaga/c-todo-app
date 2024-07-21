@@ -3,5 +3,6 @@
 int main(void)
 {
   init_tasks();
+  
   return 0;
 }

@@ -16,3 +16,12 @@ void read_line(char *des)
 
   *des = '\0';
 }
+
+char *to_char(unsigned long id)
+{
+  static char num[1];
+
+  num[0] = id + '0';
+
+  return num;
+}
