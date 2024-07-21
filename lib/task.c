@@ -4,7 +4,7 @@
 #include "../headers/task.h"
 #include "../headers/common.h"
 
-#define FILE_NAME "/db.txt"
+#define FILE_NAME "./db.txt"
 #define BUFFER_SIZE 10
 
 size_t id_index = 1;
@@ -52,6 +52,7 @@ void create_task(void)
     exit(EXIT_FAILURE);
   }
 
+  task->id = id_index++;
   task->title = title;
   task->status = status;
 
@@ -64,7 +65,7 @@ void insert_row(Task *task)
 {
   FILE *file;
 
-  file = fopen(FILE_NAME, "a");
+  file = fopen(FILE_NAME, "r");
 
   if (file == NULL) 
   {
