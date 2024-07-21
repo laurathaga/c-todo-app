@@ -4,7 +4,6 @@
 #include "../headers/task.h"
 #include "../headers/common.h"
 
-#define FILE_NAME "./todos.txt"
 #define BUFFER_SIZE 10
 
 size_t id_index = 1;
