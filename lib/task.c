@@ -61,27 +61,6 @@ void create_task(void)
   insert_row(task);
 }
 
-void insert_row(Task *task)
-{
-  FILE *file;
-
-  file = fopen(FILE_NAME, "a");
-
-  if (file == NULL) 
-  {
-    printf("Could not open file %s\n", FILE_NAME);
-    exit(EXIT_FAILURE);
-  }
-
-  fprintf(file, to_char(task->id));
-  fprintf(file, task->title);
-  fprintf(file, to_char(task->status));
-  fprintf(file, "\n");
-
-  fclose(file);
-  file = NULL;
-}
-
 void handle_op(char *op)
 {
   switch (*op)
