@@ -4,7 +4,7 @@
 #include "../headers/task.h"
 #include "../headers/common.h"
 
-#define FILE_NAME "./db.txt"
+#define FILE_NAME "./todos.txt"
 #define BUFFER_SIZE 10
 
 size_t id_index = 1;
@@ -65,7 +65,7 @@ void insert_row(Task *task)
 {
   FILE *file;
 
-  file = fopen(FILE_NAME, "r");
+  file = fopen(FILE_NAME, "a");
 
   if (file == NULL) 
   {
