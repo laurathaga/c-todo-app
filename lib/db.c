@@ -26,7 +26,7 @@ void insert_row(Task *task)
 
   if (write_result != 1) 
   {
-    printf("Could not save to file \n", DB_NAME);
+    printf("Could not save to file %s\n", DB_NAME);
     exit(EXIT_FAILURE);
   }
 
