@@ -18,8 +18,11 @@ void insert_row(Task *task)
   }
 
   fprintf(file, to_char(task->id));
+  fprintf(file, ";");
   fprintf(file, task->title);
+  fprintf(file, ";");
   fprintf(file, to_char(task->status));
+  fprintf(file, ";");
   fprintf(file, "\n");
 
   fclose(file);
