@@ -9,7 +9,7 @@ void insert_row(Task *task)
 {
   FILE *file;
 
-  file = fopen(DB_NAME, "a");
+  file = fopen(DB_NAME, "ab");
 
   if (file == NULL) 
   {
@@ -17,13 +17,20 @@ void insert_row(Task *task)
     exit(EXIT_FAILURE);
   }
 
-  fprintf(file, to_char(task->id));
-  fprintf(file, ";");
-  fprintf(file, task->title);
-  fprintf(file, ";");
-  fprintf(file, to_char(task->status));
-  fprintf(file, ";");
-  fprintf(file, "\n");
+  size_t write_result = fwrite(
+    task, // pointer to value
+    sizeof(Task), // size of value
+    1, // amount of items
+    file // pointer to file
+  );
+
+  if (write_result != 1) 
+  {
+    printf("Could not save to file \n", DB_NAME);
+    exit(EXIT_FAILURE);
+  }
+
+  printf("TODO saved successfuly\n");
 
   fclose(file);
   file = NULL;
