@@ -38,16 +38,21 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
-  while (!feof(file))
+  char *title = (char *) malloc(100);
+
+  Task *task = (Task *) malloc(sizeof(Task));
+
+  task->title = title;
+
+  *tasks_ptr = task;
+
+  while (fread(*tasks_ptr, sizeof(Task), 1, file) == 1)
   {
-    fread(*tasks_ptr, sizeof(Task), 1, file);
-
-    printf("title of task is %s\n", (*tasks_ptr)->title);
-
-    *tasks_ptr++;
+    printf("title of task is %s\n", task->title);
   }
 
-  printf("read_result is %d\n", read_result);
+  fclose(file);
+  file = NULL;
 }
 
 void create_task(void)
