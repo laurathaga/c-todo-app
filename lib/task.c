@@ -28,12 +28,9 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
-  if (fread(&mem_amount, sizeof(int), 1, indx_file) != 1) {
-    printf("Could not read from file %s\n", INDEX_FILE_NAME);
-    return;
-  }
+  fread(&mem_amount, sizeof(int), 1, indx_file);
 
-  tasks_buffer = (Task *) malloc(mem_amount);
+  tasks_buffer = (Task *) calloc(0, mem_amount * sizeof(Task));
 
   if (tasks_buffer == NULL)
   {
@@ -51,8 +48,15 @@ void init_tasks(void)
     return;
   }
 
+  for (int i = 0; i < mem_amount; i++) 
+  {
+    printf("id is %lu\n", tasks_buffer[i].id);
+    printf("title is %s\n", tasks_buffer[i].title);
+    printf("status is %s\n", tasks_buffer[i].status == 0 ? "Undone" : "Done");
+  }
+
   fclose(file);
-  file = NULL;
+  fclose(indx_file);
 }
 
 void create_task(void)
