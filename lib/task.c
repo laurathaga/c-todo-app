@@ -5,29 +5,16 @@
 #include "../headers/common.h"
 #include "../headers/db.h"
 
-#define BUFFER_SIZE 10
-
-size_t id_index = 1;
-size_t buffer_size = 0;
-size_t length = 0;
-static Task **tasks_buffer = NULL;
+unsigned int mem_amount = 0;
+static Task *tasks_buffer = NULL;
 
 void init_tasks(void)
 {
   if (tasks_buffer != NULL)
     return;
 
-  buffer_size = BUFFER_SIZE * sizeof(Task *);
-
-  tasks_buffer = (Task **) calloc(0, buffer_size);
-
-  if (tasks_buffer == NULL)
-  {
-    printf("could not allocate memory for task list\n");
-    exit(EXIT_FAILURE);
-  }
-
   FILE *file = fopen(DB_NAME, "rb");
+  FILE *indx_file = fopen(INDEX_FILE_NAME, "rb");
 
   if (file == NULL) 
   {
@@ -35,22 +22,34 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
-  Task *task = (Task *) malloc(sizeof(Task));
+  if (indx_file == NULL) 
+  {
+    printf("Could not open file %s, please try again\n", INDEX_FILE_NAME);
+    exit(EXIT_FAILURE);
+  }
 
-  task->title = (char *) malloc(100);
+  if (fread(&mem_amount, sizeof(int), 1, indx_file) != 1) {
+    printf("Could not read from file %s\n", INDEX_FILE_NAME);
+    return;
+  }
 
-  if (fread(task, sizeof(Task), 1, file) != 1) 
+  tasks_buffer = (Task *) malloc(mem_amount);
+
+  if (tasks_buffer == NULL)
+  {
+    printf("could not allocate memory for task list\n");
+    exit(EXIT_FAILURE);
+  }
+
+  if (fread(tasks_buffer, sizeof(Task), mem_amount, file) != mem_amount) 
   {
     printf("Could not read Task \n");
 
-    free(task->title);
-    free(task);
+    free(tasks_buffer);
     fclose(file);
 
     return;
   }
-
-  printf("Title of task is %s\n", task->title);
 
   fclose(file);
   file = NULL;
@@ -77,11 +76,11 @@ void create_task(void)
     exit(EXIT_FAILURE);
   }
 
-  task->id = id_index++;
+  task->id = ++mem_amount;
   task->title = title;
   task->status = status;
 
-  insert_row(task);
+  insert_row(task, mem_amount);
 }
 
 void handle_op(char *op)

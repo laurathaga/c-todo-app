@@ -5,26 +5,31 @@
 #include "../headers/db.h"
 #include "../headers/common.h"
 
-void insert_row(Task *task)
+void insert_row(Task *tasks_buffer, unsigned int mem_amount)
 {
-  FILE *file;
+  FILE *data_file, *index_file;
 
-  file = fopen(DB_NAME, "ab");
+  data_file = fopen(DB_NAME, "wb");
+  index_file = fopen(INDEX_FILE_NAME, "wb");
 
-  if (file == NULL) 
+  if (data_file == NULL) 
   {
     printf("Could not open file %s\n", DB_NAME);
     exit(EXIT_FAILURE);
   }
 
-  size_t write_result = fwrite(
-    task, // pointer to value
-    sizeof(Task), // size of value
-    1, // amount of items
-    file // pointer to file
-  );
+  if (index_file == NULL) 
+  {
+    printf("Could not open file %s\n", DB_NAME);
+    exit(EXIT_FAILURE);
+  }
 
-  if (write_result != 1) 
+  if (fwrite(&mem_amount, sizeof(unsigned int), 1, index_file) != 1) {
+    printf("Could not save to file %s\n", DB_NAME);
+    exit(EXIT_FAILURE);
+  }
+
+  if (fwrite(tasks_buffer, sizeof(Task), mem_amount, data_file) != mem_amount) 
   {
     printf("Could not save to file %s\n", DB_NAME);
     exit(EXIT_FAILURE);
@@ -32,6 +37,6 @@ void insert_row(Task *task)
 
   printf("TODO saved successfuly\n");
 
-  fclose(file);
-  file = NULL;
+  fclose(data_file);
+  fclose(index_file);
 }
