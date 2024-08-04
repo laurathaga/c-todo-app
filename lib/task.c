@@ -6,6 +6,7 @@
 #include "../headers/db.h"
 
 unsigned int mem_amount = 0;
+unsigned long current_index = 1;
 static Task *tasks_buffer = NULL;
 
 void init_tasks(void)
@@ -28,14 +29,20 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
-  fread(&mem_amount, sizeof(int), 1, indx_file);
+  fread(&current_index, sizeof(int), 1, indx_file);
+  fread(&mem_amount, sizeof(int), 1, file);
 
-  tasks_buffer = (Task *) calloc(0, mem_amount * sizeof(Task));
+  tasks_buffer = (Task *) calloc(0x0, mem_amount * sizeof(Task) + 1);
 
   if (tasks_buffer == NULL)
   {
     printf("could not allocate memory for task list\n");
     exit(EXIT_FAILURE);
+  }
+
+  for (int i = 0; i < mem_amount; i++)
+  {
+    tasks_buffer[i].title = (char *) malloc(20);
   }
 
   if (fread(tasks_buffer, sizeof(Task), mem_amount, file) != mem_amount) 
@@ -72,19 +79,16 @@ void create_task(void)
   printf("Please enter status (1 - done | 0 - undone): ");
   scanf(" %d", &status);
 
-  Task *task = (Task *) malloc(sizeof(Task));
+  Task task;
 
-  if (task == NULL)
-  {
-    printf("Could not allocate mem for task\n");
-    exit(EXIT_FAILURE);
-  }
+  task.id = current_index++;
+  task.title = title;
+  task.status = status;
 
-  task->id = ++mem_amount;
-  task->title = title;
-  task->status = status;
+  tasks_buffer[mem_amount + 1] = task;
 
-  insert_row(task, mem_amount);
+  save_index(&current_index);
+  store_into_file(tasks_buffer, &mem_amount);
 }
 
 void handle_op(char *op)
