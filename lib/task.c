@@ -85,7 +85,13 @@ void create_task(void)
   task.title = title;
   task.status = status;
 
-  tasks_buffer[mem_amount + 1] = task;
+  tasks_buffer[++mem_amount] = task;
+
+  for (int i = 0; i < mem_amount; i++)
+  {
+    printf("title is %s\n", *(tasks_buffer + i)->title);
+    printf("i is %d\n", i);
+  }
 
   save_index(&current_index);
   store_into_file(tasks_buffer, &mem_amount);
