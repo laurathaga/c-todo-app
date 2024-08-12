@@ -95,6 +95,8 @@ void create_task(void)
 
   save_index(&current_index);
   store_into_file(tasks_buffer, &mem_amount);
+
+  free(title);
 }
 
 void handle_op(char *op)
