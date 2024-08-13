@@ -5,7 +5,7 @@ typedef enum _status {
 
 struct _task {
   unsigned long id;
-  char *title;
+  char title[50];
   Status status;
 };
 
