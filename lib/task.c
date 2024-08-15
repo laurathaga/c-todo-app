@@ -48,10 +48,8 @@ void create_task(void)
 
   task->id = current_index++;
 
-  char *title_ptr = task->title;
-
   printf("Enter title (max: 50 characters): ");
-  read_line(title_ptr);
+  read_line(task->title);
 
   printf("Enter status (1 ~ Done or 0 ~ Undone): ");
   scanf(" %d", &task->status);
@@ -92,9 +90,10 @@ void update_task(void)
     }
   }
 
+  store_into_file(tasks_buffer, &mem_amount);
+
   free(title);
   free(new_title);
-  store_into_file(tasks_buffer, &mem_amount);
 }
 
 void delete_task(void)
