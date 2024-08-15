@@ -4,9 +4,9 @@
 void read_line(char *des)
 {
   int ch = getchar();
-
+  
   // skip white spaces and new line at the beggining
-  while (ch == ' ')
+  while (ch == ' ') 
     ch = getchar();
 
   while ((ch = getchar()) != '\n')

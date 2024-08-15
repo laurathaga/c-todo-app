@@ -19,6 +19,6 @@ void delete_task(void);
 
 void list_tasks(void);
 
-Task *find_task(char *title);
+void update_task(void);
 
 void handle_op(char *op);

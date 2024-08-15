@@ -62,27 +62,28 @@ void create_task(void)
   save_index(&current_index);
 
   free(task);
-  free(tasks_buffer);
 
   tasks_buffer = NULL;
   task = NULL;
 }
 
-void delete_task(void)
+void update_task(void)
 {
-  char title[50];
-  int i;
+  char title[50], new_title[50];
 
-  printf("Please enter tasks title: ");
+  printf("Please enter tasks title as is: ");
   read_line(title);
-
-  Task *task;
-
-  for (i = 0; i < mem_amount; i++) 
+  
+  for (int i = 0; i < mem_amount; i++) 
   {
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
-       printf("title of task is %s\n", tasks_buffer[i].title);
+       printf("Enter tasks new title:");
+       read_line(new_title);
+
+       strcpy(tasks_buffer[i].title, new_title);
+
+       printf("new title of task is %s\n", tasks_buffer[i].title);
        break;
     }
     else 
@@ -92,7 +93,29 @@ void delete_task(void)
     }
   }
 
-  free(tasks_buffer);
+  store_into_file(tasks_buffer, &mem_amount);
+}
+
+void delete_task(void)
+{
+  char title[50];
+  int i;
+
+  printf("Please enter title of the task to be deleted: ");
+  read_line(title);
+
+  for (i = 0; i < mem_amount; i++) 
+  {
+    if (strcmp(title, tasks_buffer[i].title) == 0) 
+    {
+       break;
+    }
+    else 
+    {
+      printf("task not found! Please check for a typo \n");
+      return;
+    }
+  }
 }
 
 void list_tasks(void)
@@ -106,8 +129,6 @@ void list_tasks(void)
   for (int i = 0; i < mem_amount; i++) {
     printf("title: %s\n", tasks_buffer[i].title);
   }
-
-  free(tasks_buffer);
 }
 
 void handle_op(char *op)
@@ -123,6 +144,7 @@ void handle_op(char *op)
       break;
     };
     case 'u': {
+      update_task();
       break;
     };
     case 'r': {
@@ -130,4 +152,6 @@ void handle_op(char *op)
       break;
     };
   }
+  
+  free(tasks_buffer);
 }
