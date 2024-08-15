@@ -64,6 +64,18 @@ void create_task(void)
   free(tasks_buffer);
 }
 
+void list_tasks(void) {
+  if (tasks_buffer == NULL)
+  {
+    printf("You should call init before list_tasks function\n");
+    exit(EXIT_FAILURE);
+  }
+
+  for (int i = 0; i < mem_amount; i++) {
+    printf("title: %s\n", tasks_buffer[i].title);
+  }
+}
+
 void handle_op(char *op)
 {
   switch (*op)
@@ -79,6 +91,7 @@ void handle_op(char *op)
       break;
     };
     case 'r': {
+      list_tasks();
       break;
     };
   }
