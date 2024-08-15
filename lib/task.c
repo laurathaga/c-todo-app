@@ -133,6 +133,12 @@ void list_tasks(void)
 
 void handle_op(char *op)
 {
+  if (!is_initialized())
+  {
+    printf("You must call init_tasks function first! \n");
+    return;
+  }
+
   switch (*op)
   {
     case 'i': {
@@ -154,4 +160,9 @@ void handle_op(char *op)
   }
   
   free(tasks_buffer);
+}
+
+Bool is_initialized()
+{
+  return tasks_buffer ? TRUE : FALSE;
 }

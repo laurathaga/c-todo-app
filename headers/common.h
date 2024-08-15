@@ -1,6 +1,9 @@
-#define TRUE 1
-#define FALSE 0
 #define TO_INT(arg) (arg - '0')
+
+typedef enum _bool {
+  TRUE = 1,
+  FALSE = 0,
+} Bool;
 
 void read_line(char *des);
 char *to_char(unsigned long id);
