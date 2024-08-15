@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "../headers/task.h"
@@ -62,9 +63,40 @@ void create_task(void)
 
   free(task);
   free(tasks_buffer);
+
+  tasks_buffer = NULL;
+  task = NULL;
 }
 
-void list_tasks(void) {
+void delete_task(void)
+{
+  char title[50];
+  int i;
+
+  printf("Please enter tasks title: ");
+  read_line(title);
+
+  Task *task;
+
+  for (i = 0; i < mem_amount; i++) 
+  {
+    if (strcmp(title, tasks_buffer[i].title) == 0) 
+    {
+       printf("title of task is %s\n", tasks_buffer[i].title);
+       break;
+    }
+    else 
+    {
+      printf("task not found! Please check for a typo \n");
+      return;
+    }
+  }
+
+  free(tasks_buffer);
+}
+
+void list_tasks(void)
+{
   if (tasks_buffer == NULL)
   {
     printf("You should call init before list_tasks function\n");
@@ -74,6 +106,8 @@ void list_tasks(void) {
   for (int i = 0; i < mem_amount; i++) {
     printf("title: %s\n", tasks_buffer[i].title);
   }
+
+  free(tasks_buffer);
 }
 
 void handle_op(char *op)
@@ -85,6 +119,7 @@ void handle_op(char *op)
       break;
     }
     case 'd': {
+      delete_task();
       break;
     };
     case 'u': {
