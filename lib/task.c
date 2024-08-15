@@ -69,8 +69,8 @@ void create_task(void)
 
 void update_task(void)
 {
-  char *title = (char *) malloc(50);
-  char *new_title = (char *) malloc(50);
+  char *title = (char *) malloc(50),
+       *new_title = (char *) malloc(50);
 
   printf("Please enter tasks title as is: ");
   read_line(title);
@@ -84,8 +84,6 @@ void update_task(void)
        read_line(new_title);
 
        str_cpy(tasks_buffer[i].title, new_title, 50);
-
-       printf("new title of task is %s\n", tasks_buffer[i].title);
        break;
     }
     else 
@@ -95,6 +93,8 @@ void update_task(void)
     }
   }
 
+  free(title);
+  free(new_title);
   store_into_file(tasks_buffer, &mem_amount);
 }
 
