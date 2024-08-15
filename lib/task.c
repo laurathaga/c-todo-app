@@ -69,19 +69,21 @@ void create_task(void)
 
 void update_task(void)
 {
-  char title[50], new_title[50];
+  char *title = (char *) malloc(50);
+  int i;
+  char *new_title = (char *) malloc(50);
 
   printf("Please enter tasks title as is: ");
   read_line(title);
   
-  for (int i = 0; i < mem_amount; i++) 
+  for (i = 0; i < mem_amount; i++) 
   {
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
-       printf("Enter tasks new title:");
+       printf("Enter tasks new title: ");
        read_line(new_title);
 
-       strcpy(tasks_buffer[i].title, new_title);
+       str_cpy(tasks_buffer[i].title, new_title, 50);
 
        printf("new title of task is %s\n", tasks_buffer[i].title);
        break;
