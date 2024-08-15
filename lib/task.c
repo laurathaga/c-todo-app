@@ -39,8 +39,6 @@ void init_tasks(void)
   }
 
   fread(&current_index, sizeof(int), 1, indx_file);
-
-  printf("title of first task is %s\n", tasks_buffer[0].title);
 }
 
 void create_task(void)
@@ -54,20 +52,16 @@ void create_task(void)
   printf("Enter title: ");
   read_line(title_ptr);
 
-  printf("title is %s\n", title_ptr);
-
   printf("Enter status (1 ~ Done or 0 ~ Undone): ");
   scanf(" %d", &task->status);
 
-  if (mem_amount == 0) 
-    tasks_buffer[mem_amount++] = *task;
-  else 
-    tasks_buffer[++mem_amount] = *task;
+  tasks_buffer[mem_amount++] = *task;
 
   store_into_file(tasks_buffer, &mem_amount);
   save_index(&current_index);
 
   free(task);
+  free(tasks_buffer);
 }
 
 void handle_op(char *op)
