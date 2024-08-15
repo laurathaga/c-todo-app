@@ -5,17 +5,18 @@ void read_line(char *des)
 {
   char *curr = des;
 
-  int ch;
-  
-  // skip white spaces and new line at the beggining
-  while ((ch = getchar()) == ' ') 
-    ;
+  int ch = getchar();
 
-  while ((ch = getchar()) != '\n')
+  while (ch == ' ' || ch == '\n')
+    ch = getchar();
+  
+  while (ch != '\n') 
   {
     *curr++ = ch;
-  }
 
+    ch = getchar();
+  }
+  
   *curr = '\0';
 }
 
