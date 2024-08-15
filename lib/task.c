@@ -49,7 +49,7 @@ void create_task(void)
 
   char *title_ptr = task->title;
 
-  printf("Enter title: ");
+  printf("Enter title (max: 50 characters): ");
   read_line(title_ptr);
 
   printf("Enter status (1 ~ Done or 0 ~ Undone): ");
