@@ -63,7 +63,6 @@ void create_task(void)
 
   free(task);
 
-  tasks_buffer = NULL;
   task = NULL;
 }
 
