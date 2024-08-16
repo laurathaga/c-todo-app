@@ -1,4 +1,3 @@
-#include "./common.h"
 
 typedef enum _status {
   UNDONE,
@@ -24,5 +23,3 @@ void list_tasks(void);
 void update_task(void);
 
 void handle_op(char *op);
-
-Bool is_initialized(void);

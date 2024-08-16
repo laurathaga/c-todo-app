@@ -10,6 +10,11 @@ unsigned int mem_amount;
 unsigned long current_index = 1;
 static Task *tasks_buffer = NULL;
 
+int is_initialized(void)
+{
+  return tasks_buffer ? TRUE : FALSE;
+}
+
 void init_tasks(void)
 {
   if (tasks_buffer)
@@ -136,7 +141,7 @@ void handle_op(char *op)
   if (!is_initialized())
   {
     printf("You must call init_tasks function first! \n");
-    return;
+    exit(EXIT_FAILURE);
   }
 
   switch (*op)
@@ -160,9 +165,4 @@ void handle_op(char *op)
   }
   
   free(tasks_buffer);
-}
-
-Bool is_initialized()
-{
-  return tasks_buffer ? TRUE : FALSE;
 }
