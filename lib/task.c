@@ -109,12 +109,11 @@ void update_task(void)
 void delete_task(void)
 {
   char title[50];
-  int i;
 
   printf("Please enter title of the task to be deleted: ");
   read_line(title);
 
-  for (i = 0; i < mem_amount; i++) 
+  for (int i = 0; i < mem_amount; i++) 
   {
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
@@ -130,12 +129,6 @@ void delete_task(void)
 
 void list_tasks(void)
 {
-  if (tasks_buffer == NULL)
-  {
-    printf("You should call init before list_tasks function\n");
-    exit(EXIT_FAILURE);
-  }
-
   for (int i = 0; i < mem_amount; i++) {
     printf("title: %s\n", tasks_buffer[i].title);
   }
