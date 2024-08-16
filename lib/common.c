@@ -3,18 +3,33 @@
 
 void read_line(char *des)
 {
+  char *curr = des;
+
   int ch = getchar();
 
-  // skip white spaces and new line at the beggining
-  while (ch == ' ')
+  while (ch == ' ' || ch == '\n')
     ch = getchar();
-
-  while ((ch = getchar()) != '\n')
+  
+  while (ch != '\n') 
   {
-    *des++ = ch;
+    *curr++ = ch;
+
+    ch = getchar();
+  }
+  
+  *curr = '\0';
+}
+
+void str_cpy(char *des, const char *str, int size)
+{
+  int counter = 0;
+
+  while (counter++ < size && *str)
+  {
+    *des++ = *str++;
   }
 
-  *des = '\0';
+  *des = 0;
 }
 
 char *to_char(unsigned long id)

@@ -1,3 +1,4 @@
+
 typedef enum _status {
   UNDONE,
   DONE,
@@ -5,7 +6,7 @@ typedef enum _status {
 
 struct _task {
   unsigned long id;
-  char *title;
+  char title[50];
   Status status;
 };
 
@@ -17,6 +18,8 @@ void create_task(void);
 
 void delete_task(void);
 
-Task *find_task(char *title);
+void list_tasks(void);
+
+void update_task(void);
 
 void handle_op(char *op);

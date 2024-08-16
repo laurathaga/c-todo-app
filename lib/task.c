@@ -1,106 +1,154 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #include "../headers/task.h"
 #include "../headers/common.h"
 #include "../headers/db.h"
 
-unsigned int mem_amount = 0;
+unsigned int mem_amount;
 unsigned long current_index = 1;
 static Task *tasks_buffer = NULL;
 
+int is_initialized(void)
+{
+  return tasks_buffer ? TRUE : FALSE;
+}
+
 void init_tasks(void)
 {
-  if (tasks_buffer != NULL)
+  if (tasks_buffer)
     return;
 
   FILE *file = fopen(DB_NAME, "rb");
   FILE *indx_file = fopen(INDEX_FILE_NAME, "rb");
 
-  if (file == NULL) 
-  {
-    printf("Could not open file %s, please try again\n", DB_NAME);
+  if (file == NULL) {
+    printf("Could not open file %s\n", DB_NAME);
     exit(EXIT_FAILURE);
   }
 
-  if (indx_file == NULL) 
-  {
-    printf("Could not open file %s, please try again\n", INDEX_FILE_NAME);
+  if (indx_file == NULL) {
+    printf("Could not open file %s\n", INDEX_FILE_NAME);
+    exit(EXIT_FAILURE);
+  }
+
+  fread(&mem_amount, sizeof(int), 1, file);
+
+  tasks_buffer = (Task *) malloc(
+    mem_amount == 0 ? sizeof(Task) : mem_amount * sizeof(Task) + 1
+  );
+
+  if (tasks_buffer == NULL) {
+    printf("Could not initialize tasks\n");
+    exit(EXIT_FAILURE);
+  }
+
+  if (fread(tasks_buffer, sizeof(Task), mem_amount, file) != mem_amount) {
+    printf("Something went wrong when reading tasks\n");
     exit(EXIT_FAILURE);
   }
 
   fread(&current_index, sizeof(int), 1, indx_file);
-  fread(&mem_amount, sizeof(int), 1, file);
-
-  tasks_buffer = (Task *) calloc(0x0, mem_amount * sizeof(Task) + 1);
-
-  if (tasks_buffer == NULL)
-  {
-    printf("could not allocate memory for task list\n");
-    exit(EXIT_FAILURE);
-  }
-
-  for (int i = 0; i < mem_amount; i++)
-  {
-    tasks_buffer[i].title = (char *) malloc(20);
-  }
-
-  if (fread(tasks_buffer, sizeof(Task), mem_amount, file) != mem_amount) 
-  {
-    printf("Could not read Task \n");
-
-    free(tasks_buffer);
-    fclose(file);
-
-    return;
-  }
-
-  for (int i = 0; i < mem_amount; i++) 
-  {
-    printf("id is %lu\n", tasks_buffer[i].id);
-    printf("title is %s\n", tasks_buffer[i].title);
-    printf("status is %s\n", tasks_buffer[i].status == 0 ? "Undone" : "Done");
-  }
-
-  fclose(file);
-  fclose(indx_file);
 }
 
 void create_task(void)
 {
-  char *title = (char *) malloc(20),
-       *title_ptr = title;  
+  Task *task = (Task *) malloc(sizeof(Task));
 
-  Status status;
+  task->id = current_index++;
 
-  printf("Please enter task title: ");
-  read_line(title_ptr);
+  printf("Enter title (max: 50 characters): ");
+  read_line(task->title);
 
-  printf("Please enter status (1 - done | 0 - undone): ");
-  scanf(" %d", &status);
+  printf("Enter status (1 ~ Done or 0 ~ Undone): ");
+  scanf(" %d", &task->status);
 
-  Task task;
+  tasks_buffer[mem_amount++] = *task;
 
-  task.id = current_index++;
-  task.title = title;
-  task.status = status;
+  store_into_file(tasks_buffer, &mem_amount);
+  save_index(&current_index);
 
-  tasks_buffer[++mem_amount] = task;
+  free(task);
 
-  for (int i = 0; i < mem_amount; i++)
+  task = NULL;
+}
+
+void update_task(void)
+{
+  char *title = (char *) malloc(50),
+       *new_title = (char *) malloc(50);
+
+  printf("Please enter tasks title as is: ");
+  read_line(title);
+  
+  for (int i = 0; i < mem_amount; i++) 
   {
-    printf("title is %s\n", *(tasks_buffer + i)->title);
-    printf("i is %d\n", i);
+    if (strcmp(title, tasks_buffer[i].title) == 0) 
+    {
+
+       printf("Enter tasks new title: ");
+       read_line(new_title);
+
+       str_cpy(tasks_buffer[i].title, new_title, 50);
+       break;
+    }
+    else 
+    {
+      printf("task not found! Please check for a typo \n");
+      return;
+    }
   }
 
-  save_index(&current_index);
   store_into_file(tasks_buffer, &mem_amount);
 
   free(title);
+  free(new_title);
+}
+
+void delete_task(void)
+{
+  char title[50];
+  int i;
+
+  printf("Please enter title of the task to be deleted: ");
+  read_line(title);
+
+  for (i = 0; i < mem_amount; i++) 
+  {
+    if (strcmp(title, tasks_buffer[i].title) == 0) 
+    {
+       break;
+    }
+    else 
+    {
+      printf("task not found! Please check for a typo \n");
+      return;
+    }
+  }
+}
+
+void list_tasks(void)
+{
+  if (tasks_buffer == NULL)
+  {
+    printf("You should call init before list_tasks function\n");
+    exit(EXIT_FAILURE);
+  }
+
+  for (int i = 0; i < mem_amount; i++) {
+    printf("title: %s\n", tasks_buffer[i].title);
+  }
 }
 
 void handle_op(char *op)
 {
+  if (!is_initialized())
+  {
+    printf("You must call init_tasks function first! \n");
+    exit(EXIT_FAILURE);
+  }
+
   switch (*op)
   {
     case 'i': {
@@ -108,13 +156,18 @@ void handle_op(char *op)
       break;
     }
     case 'd': {
+      delete_task();
       break;
     };
     case 'u': {
+      update_task();
       break;
     };
     case 'r': {
+      list_tasks();
       break;
     };
   }
+  
+  free(tasks_buffer);
 }

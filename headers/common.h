@@ -4,3 +4,4 @@
 
 void read_line(char *des);
 char *to_char(unsigned long id);
+void str_cpy(char *des, const char *str, int size);
