@@ -28,6 +28,11 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
+  if (indx_file == NULL) {
+    printf("Could not open file %s\n", INDEX_FILE_NAME);
+    exit(EXIT_FAILURE);
+  }
+
   fread(&mem_amount, sizeof(int), 1, file);
 
   tasks_buffer = (Task *) malloc(
