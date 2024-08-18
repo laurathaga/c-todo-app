@@ -30,9 +30,7 @@ void init_tasks(void)
 
   fread(&mem_amount, sizeof(int), 1, file);
 
-  tasks_buffer = (Task *) malloc(
-    mem_amount == 0 ? sizeof(Task) : mem_amount * sizeof(Task) + 1
-  );
+  tasks_buffer = (Task *) malloc((mem_amount + 1) * sizeof(Task));
 
   if (tasks_buffer == NULL) {
     printf("Could not initialize tasks\n");
@@ -76,24 +74,27 @@ void update_task(void)
 
   printf("Please enter tasks title as is: ");
   read_line(title);
+
+  Task *task = NULL;
   
   for (int i = 0; i < mem_amount; i++) 
   {
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
-
-       printf("Enter tasks new title: ");
-       read_line(new_title);
-
-       str_cpy(tasks_buffer[i].title, new_title, 50);
-       break;
-    }
-    else 
-    {
-      printf("task not found! Please check for a typo \n");
-      return;
+       task = &tasks_buffer[i];
     }
   }
+
+  if (!task)
+  {
+    printf("Could not find task !\n");
+    exit(EXIT_FAILURE);
+  }
+
+  printf("Enter tasks new title: ");
+  read_line(new_title);
+
+  str_cpy(task->title, new_title, 50);
 
   store_into_file(tasks_buffer, &mem_amount);
 
@@ -125,7 +126,7 @@ void delete_task(void)
 void list_tasks(void)
 {
   for (int i = 0; i < mem_amount; i++) {
-    printf("title: %s\n", tasks_buffer[i].title);
+    printf("title: %s | status: %s\n", tasks_buffer[i].title, tasks_buffer[i].status ? "Done" : "Undone");
   }
 }
 
