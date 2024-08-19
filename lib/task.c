@@ -163,10 +163,23 @@ void handle_op(char *op)
       break;
     }
     case 'd': {
+      if (!mem_amount)
+      {
+        printf("There's nothing to delete\n");
+        return;
+      }
+
       delete_task();
+
       break;
     };
     case 'u': {
+      if (!mem_amount)
+      {
+        printf("There's nothing to update\n");
+        return;
+      }
+
       update_task();
       break;
     };
