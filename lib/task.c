@@ -184,6 +184,12 @@ void handle_op(char *op)
       break;
     };
     case 'r': {
+      if (!mem_amount)
+      {
+        printf("Tasks list is empty. Add some tasks! \n");
+        return;
+      }
+
       list_tasks();
       break;
     };
