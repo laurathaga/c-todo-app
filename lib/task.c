@@ -129,6 +129,7 @@ void delete_task(void)
   }
 
   Task *new_tasks = (Task *) malloc(--mem_amount * sizeof(Task));
+
   i = 0;
 
   while (i < mem_amount)
@@ -136,7 +137,6 @@ void delete_task(void)
     if (tasks_buffer[i].id != task->id)
       new_tasks[i] = tasks_buffer[i];
     
-
     i++;
   }
 
