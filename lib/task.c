@@ -105,8 +105,10 @@ void update_task(void)
 
 void delete_task(void)
 {
-  char title[50];
+  char *title;
   int i;
+
+  title = (char *) malloc(50);
 
   printf("Please enter title of the task to be deleted: ");
   read_line(title);
@@ -142,6 +144,7 @@ void delete_task(void)
 
   store_into_file(new_tasks, &mem_amount);
   free(new_tasks);
+  free(title);
 }
 
 void list_tasks(void)
