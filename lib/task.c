@@ -138,6 +138,7 @@ void delete_task(void)
   }
 
   store_into_file(new_tasks, &mem_amount);
+  free(new_tasks);
 }
 
 void list_tasks(void)
