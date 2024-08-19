@@ -8,7 +8,7 @@
 
 unsigned int mem_amount;
 unsigned long current_index = 1;
-static Task *tasks_buffer = NULL;
+Task *tasks_buffer = NULL;
 
 void init_tasks(void)
 {
@@ -106,22 +106,38 @@ void update_task(void)
 void delete_task(void)
 {
   char title[50];
+  int i;
 
   printf("Please enter title of the task to be deleted: ");
   read_line(title);
 
-  for (int i = 0; i < mem_amount; i++) 
+  Task *task = NULL;
+
+  for (i = 0; i < mem_amount; i++) 
   {
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
+       task = &tasks_buffer[i];
        break;
     }
-    else 
-    {
-      printf("task not found! Please check for a typo \n");
-      return;
-    }
   }
+
+  if (!task)
+  {
+    printf("Could not find task !\n");
+    exit(EXIT_FAILURE);
+  }
+
+  Task *new_tasks = (Task *) malloc(--mem_amount * sizeof(Task));
+  i = 0;
+
+  while (tasks_buffer[i].id != task->id)
+  {
+    new_tasks[i] = tasks_buffer[i];
+    i++;
+  }
+
+  store_into_file(new_tasks, &mem_amount);
 }
 
 void list_tasks(void)
