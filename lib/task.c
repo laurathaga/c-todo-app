@@ -82,6 +82,7 @@ void update_task(void)
     if (strcmp(title, tasks_buffer[i].title) == 0) 
     {
        task = &tasks_buffer[i];
+       break;
     }
   }
 
