@@ -32,10 +32,11 @@ int main(void)
   char op = '\0';
   init_tasks();
 
+  intro();
+
   printf("Please enter command: ");
   scanf(" %c", &op);
 
-  intro();
 
   if (!is_valid_op(&op)) {
     printf("the command you entered is unvalid! \n");
