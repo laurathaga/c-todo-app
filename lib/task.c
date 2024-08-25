@@ -69,10 +69,12 @@ void create_task(void)
 
 void update_task(void)
 {
+  int option;
+
   char *title = (char *) malloc(50),
        *new_title = (char *) malloc(50);
 
-  printf("Please enter tasks title as is: ");
+  printf("Please enter tasks title to update: ");
   read_line(title);
 
   Task *task = NULL;
@@ -92,15 +94,38 @@ void update_task(void)
     exit(EXIT_FAILURE);
   }
 
-  printf("Enter tasks new title: ");
-  read_line(new_title);
+  insert_option: 
+    printf("Please press 1 to update name or 2 to update the status: ");
+    scanf(" %d", &option);
 
-  str_cpy(task->title, new_title, 50);
+  if (option == 1) {
+    goto update_title;
+  }
+  else if (option == 2) {
+    goto update_status;
+  }
+  else {
+    printf("Invalid option\n");
+    goto insert_option;
+  }
+  
+  update_title:
+    printf("Enter tasks new title: ");
+    read_line(new_title);
 
-  store_into_file(tasks_buffer, &mem_amount);
+    str_cpy(task->title, new_title, 50);
+    goto end;
 
-  free(title);
-  free(new_title);
+  update_status:
+    printf("Enter status of task (1 - done; 0 - undone): ");
+    scanf(" %d", &task->status);
+    goto end;
+
+  end: 
+    store_into_file(tasks_buffer, &mem_amount);
+
+    free(title);
+    free(new_title);
 }
 
 void delete_task(void)
