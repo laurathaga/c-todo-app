@@ -26,7 +26,7 @@ void commands(void) {
 void intro(void) {
   printf("\n========== TODO APP ==========\n\n");
   commands();
-  printf("\n===========================\n\n");
+  printf("\n==============================\n\n");
 }
 
 int main(void)
