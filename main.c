@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 int is_valid_op(char *op) {
-  if (*op == 'i' || *op == 'u' || *op == 'd' || *op == 'r') {
+  if (*op == 'i' || *op == 'u' || *op == 'd' || *op == 'r' || *op == 'q') {
     return TRUE;
   }
 
@@ -13,18 +13,17 @@ int is_valid_op(char *op) {
 
 void commands(void) {
   printf("In order to interact with the app you have to press: \n\n");
-  printf("i - for inserting new todo; \n");
-  printf("u - for updating an existing todo; \n");
-  printf("r - for reading all the todos; \n");
-  printf("d - for deleting a todo. \n");
+  printf("i -  insert -  for inserting new todo; \n");
+  printf("u -  update -  for updating an existing todo; \n");
+  printf("r -  read   -  for reading all the todos; \n");
+  printf("d -  delete -  for deleting a todo. \n");
+  printf("q -  quit   -  for quiting the app. \n");
 }
 
 void intro(void) {
-  printf("\n====== TODO APP ======\n\n");
-
+  printf("\n========== TODO APP ==========\n\n");
   commands();
-
-  printf("\n======================\n\n");
+  printf("\n===========================\n\n");
 }
 
 int main(void)
@@ -36,7 +35,6 @@ int main(void)
 
   printf("Please enter command: ");
   scanf(" %c", &op);
-
 
   if (!is_valid_op(&op)) {
     printf("the command you entered is unvalid! \n");
