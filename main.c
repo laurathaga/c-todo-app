@@ -3,12 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int is_valid_op(char *op) {
+char is_valid_op(char *op) {
+  printf("Please enter command: ");
+  scanf(" %c", op);
+
   if (*op == 'i' || *op == 'u' || *op == 'd' || *op == 'r' || *op == 'q') {
     return TRUE;
   }
 
-  return FALSE;
+  return(FALSE);
 }
 
 void commands(void) {
@@ -30,19 +33,14 @@ int main(void)
 {
   char op = '\0';
   init_tasks();
-
   intro();
 
-  printf("Please enter command: ");
-  scanf(" %c", &op);
-
-  if (!is_valid_op(&op)) {
-    printf("the command you entered is unvalid! \n");
+  while (!is_valid_op(&op)) {
+    printf("the command you entered is invalid! \n\n");
     commands();
-    exit(EXIT_FAILURE);
   }
 
   handle_op(&op);
 
-  return 0;
+  return(0);
 }
