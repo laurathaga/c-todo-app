@@ -34,7 +34,6 @@ void intro(void) {
 int main(void)
 {
   char op = '\0';
-  char count = 0;
   intro();
   init_tasks();
 
@@ -44,18 +43,10 @@ int main(void)
       printf("the command you entered is invalid! \n\n");
       print_help();
     }
-    else if (op == 'q') 
-    {
+    else if (op == 'q')
       break;
-    }
     else
-    {
       handle_op(&op);
-    }
-
-    if (count == 100) break;
-
-    count++;
   }
 
 
