@@ -18,13 +18,8 @@ void init_tasks(void)
   FILE *file = fopen(DB_NAME, "rb");
   FILE *indx_file = fopen(INDEX_FILE_NAME, "rb");
 
-  if (file == NULL) {
-    printf("Could not open file %s\n", DB_NAME);
-    exit(EXIT_FAILURE);
-  }
-
-  if (indx_file == NULL) {
-    printf("Could not open file %s\n", INDEX_FILE_NAME);
+  if (file == NULL || indx_file == NULL) {
+    printf("Could not load db\n");
     exit(EXIT_FAILURE);
   }
 
@@ -230,5 +225,5 @@ void handle_op(char *op)
     };
   }
   
-  free(tasks_buffer);
+  // free(tasks_buffer);
 }

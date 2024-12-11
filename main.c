@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char is_valid_op(char *op) {
+unsigned char is_valid_op(char *op) {
   printf("Please enter command: ");
   scanf(" %c", op);
 
@@ -34,15 +34,30 @@ void intro(void) {
 int main(void)
 {
   char op = '\0';
-  init_tasks();
+  char count = 0;
   intro();
+  init_tasks();
 
-  while (!is_valid_op(&op)) {
-    printf("the command you entered is invalid! \n\n");
-    print_help();
+  while (TRUE) {
+    if (!is_valid_op(&op))
+    {
+      printf("the command you entered is invalid! \n\n");
+      print_help();
+    }
+    else if (op == 'q') 
+    {
+      break;
+    }
+    else
+    {
+      handle_op(&op);
+    }
+
+    if (count == 100) break;
+
+    count++;
   }
 
-  handle_op(&op);
 
   return(0);
 }
