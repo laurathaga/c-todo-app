@@ -7,25 +7,27 @@ char is_valid_op(char *op) {
   printf("Please enter command: ");
   scanf(" %c", op);
 
-  if (*op == 'i' || *op == 'u' || *op == 'd' || *op == 'r' || *op == 'q') {
+  if (
+      *op == 'i' ||
+      *op == 'u' ||
+      *op == 'd' ||
+      *op == 'r' ||
+      *op == 'q' ||
+      *op == 'h'
+    ) {
     return TRUE;
   }
 
   return(FALSE);
 }
 
-void commands(void) {
-  printf("In order to interact with the app you have to press: \n\n");
-  printf("i -  insert -  for inserting new todo; \n");
-  printf("u -  update -  for updating an existing todo; \n");
-  printf("r -  read   -  for reading all the todos; \n");
-  printf("d -  delete -  for deleting a todo. \n");
-  printf("q -  quit   -  for quiting the app. \n");
+void print_help() {
+  printf("Press \"h\" if you need help for interacting with the app\n");
 }
 
 void intro(void) {
   printf("\n========== TODO APP ==========\n\n");
-  commands();
+  print_help();
   printf("\n==============================\n\n");
 }
 
@@ -37,7 +39,7 @@ int main(void)
 
   while (!is_valid_op(&op)) {
     printf("the command you entered is invalid! \n\n");
-    commands();
+    print_help();
   }
 
   handle_op(&op);

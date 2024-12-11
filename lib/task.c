@@ -189,6 +189,10 @@ void handle_op(char *op)
 
   switch (*op)
   {
+    case 'h': {
+      list_commands();  
+      break;
+    }
     case 'i': {
       create_task();
       break;

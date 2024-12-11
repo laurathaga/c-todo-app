@@ -40,3 +40,12 @@ char *to_char(unsigned long id)
 
   return num;
 }
+
+void list_commands(void) {
+  printf("In order to interact with the app you have to press: \n\n");
+  printf("i - (insert) -  for inserting new todo; \n");
+  printf("u - (update) -  for updating an existing todo; \n");
+  printf("r - (read)   -  for reading all the todos; \n");
+  printf("d - (delete) -  for deleting a todo. \n");
+  printf("q - (quit)   -  for quiting the app. \n");
+}
