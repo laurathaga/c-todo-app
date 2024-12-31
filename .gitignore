@@ -30,6 +30,9 @@
 
 # Executables
 main*
+main
+debug_main
+debug_main*
 *.exe
 *.out
 *.app
