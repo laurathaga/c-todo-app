@@ -32,15 +32,6 @@ void str_cpy(char *des, const char *str, int size)
   *des = 0;
 }
 
-char *to_char(unsigned long id)
-{
-  static char num[1];
-
-  num[0] = id + '0';
-
-  return num;
-}
-
 void list_commands(void) {
   printf("In order to interact with the app you can press: \n\n");
   printf("i - (insert) -  for inserting new todo; \n");
