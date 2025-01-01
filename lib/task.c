@@ -170,26 +170,6 @@ void delete_task(void)
   free(title);
 }
 
-/*void scpy(char *dest, char* const source) {*/
-/*  unsigned char curr = 0;*/
-/**/
-/*  printf("dest: %s\n", dest);*/
-/*  printf("source: %s\n", source);*/
-/**/
-/*  while (*source_p != '\0') {*/
-/*    *dest_p = *source_p;*/
-/*    source_p++;*/
-/*    dest_p++;*/
-/*    curr++;*/
-/*  }*/
-/**/
-/*  while (curr < (TITLE_DISPLAY_SIZE - 1)) {*/
-/*    *dest_p++ = ' ';*/
-/*  }*/
-/**/
-/*  *dest_p = '\0';*/
-/*}*/
-
 void list_tasks(void)
 {
   for (int i = 0; i < mem_amount; i++) {
