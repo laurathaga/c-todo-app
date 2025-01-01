@@ -11,22 +11,23 @@ unsigned char is_valid_op(char *op) {
       *op == 'i' ||
       *op == 'u' ||
       *op == 'd' ||
-      *op == 'r' ||
+      *op == 'l' ||
       *op == 'q' ||
-      *op == 'h'
+      *op == 'h' ||
+      *op == 'c'
     ) {
     return TRUE;
   }
 
-  return(FALSE);
+  return FALSE;
 }
 
 void print_help() {
-  printf("Press \"h\" if you need help for interacting with the app\n");
+  printf("Press \"h\" if you need help for\ninteracting with the app\n");
 }
 
 void intro(void) {
-  printf("\n========== TODO APP ==========\n\n");
+  printf("\n========== TODOS ==========\n\n");
   print_help();
   printf("\n==============================\n\n");
 }

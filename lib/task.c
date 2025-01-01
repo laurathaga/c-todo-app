@@ -213,7 +213,7 @@ void handle_op(char *op)
       update_task();
       break;
     };
-    case 'r': {
+    case 'l': {
       if (!mem_amount)
       {
         printf("Tasks list is empty. Add some tasks! \n");
