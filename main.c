@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 unsigned char is_valid_op(char *op) {
-  printf("Please enter command: ");
+  printf("todos: ");
   scanf(" %c", op);
 
   if (
