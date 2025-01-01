@@ -34,23 +34,29 @@ void store_into_file(Task *tasks_buffer, unsigned int *mem_amount)
   fclose(file);
 }
 
+// TODO: rename this to "save_metadata"
 void save_index(unsigned long *index)
 {
   FILE *file;
 
-  file = fopen(INDEX_FILE_NAME, "wb");
+  file = fopen(META_FILE_NAME, "wb");
 
   if (file == NULL)
   {
-    printf("Could not open file %s\n", INDEX_FILE_NAME);
+    printf("Could not open file %s\n", META_FILE_NAME);
     exit(EXIT_FAILURE);
   }
 
-  if (fwrite(index, sizeof(unsigned long), 1, file) != 1) 
+  if (fwrite(index, sizeof(long), 1, file) != 1) 
   {
-    printf("Could not save to file %s\n", INDEX_FILE_NAME);
+    printf("Could not save to file %s\n", META_FILE_NAME);
     exit(EXIT_FAILURE);
   }
+
+  /*if (fwrite(index, sizeof(int), 1, file) != 1) {*/
+  /*  printf("Could not save meta data for this file\n");*/
+  /*  exit(EXIT_FAILURE);*/
+  /*}*/
 
   fclose(file);
 }

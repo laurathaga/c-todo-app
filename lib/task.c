@@ -6,6 +6,10 @@
 #include "../headers/common.h"
 #include "../headers/db.h"
 
+#define PADDING_H 2
+#define PADDING_V 2
+#define TITLE_DISPLAY_SIZE 50
+
 unsigned int mem_amount;
 unsigned long current_index = 1;
 Task *tasks_buffer = NULL;
@@ -16,9 +20,9 @@ void init_tasks(void)
     return;
 
   FILE *file = fopen(DB_NAME, "rb");
-  FILE *indx_file = fopen(INDEX_FILE_NAME, "rb");
+  FILE *meta_file = fopen(META_FILE_NAME, "rb");
 
-  if (file == NULL || indx_file == NULL) {
+  if (file == NULL || meta_file == NULL) {
     printf("Could not load db\n");
     exit(EXIT_FAILURE);
   }
@@ -37,7 +41,7 @@ void init_tasks(void)
     exit(EXIT_FAILURE);
   }
 
-  fread(&current_index, sizeof(int), 1, indx_file);
+  fread(&current_index, sizeof(int), 1, meta_file);
 }
 
 void create_task(void)
@@ -46,11 +50,10 @@ void create_task(void)
 
   task->id = current_index++;
 
-  printf("Enter title (max: 50 characters): ");
+  printf("Enter title (max: 50 char): ");
   read_line(task->title);
 
-  printf("Enter status (1 ~ Done or 0 ~ Undone): ");
-  scanf(" %d", &task->status);
+  task->status = 0;
 
   tasks_buffer[mem_amount++] = *task;
 
@@ -167,10 +170,53 @@ void delete_task(void)
   free(title);
 }
 
+/*void scpy(char *dest, char* const source) {*/
+/*  unsigned char curr = 0;*/
+/**/
+/*  printf("dest: %s\n", dest);*/
+/*  printf("source: %s\n", source);*/
+/**/
+/*  while (*source_p != '\0') {*/
+/*    *dest_p = *source_p;*/
+/*    source_p++;*/
+/*    dest_p++;*/
+/*    curr++;*/
+/*  }*/
+/**/
+/*  while (curr < (TITLE_DISPLAY_SIZE - 1)) {*/
+/*    *dest_p++ = ' ';*/
+/*  }*/
+/**/
+/*  *dest_p = '\0';*/
+/*}*/
+
 void list_tasks(void)
 {
   for (int i = 0; i < mem_amount; i++) {
-    printf("title: %s | status: %s\n", tasks_buffer[i].title, tasks_buffer[i].status ? "Done" : "Undone");
+    char formated_title[TITLE_DISPLAY_SIZE];
+    char *title_ref = tasks_buffer[i].title;
+    unsigned char k = 0;
+
+    while (k < (TITLE_DISPLAY_SIZE - 1)) {
+      if (title_ref[k] != '\0') {
+        formated_title[k] = title_ref[k];
+        k++;
+        continue;
+      }
+      formated_title[k++] = ' ';
+    }
+
+    formated_title[k] = '\0';
+
+    printf(
+      "title:%s%s%s| status: %s\n",
+      /*PADDING_H,*/
+      " ",
+      formated_title,
+      " ",
+      /*PADDING_H,*/
+      tasks_buffer[i].status ? "Done" : "Undone"
+    );
   }
 }
 
