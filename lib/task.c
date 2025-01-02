@@ -189,8 +189,9 @@ void list_tasks(void)
     formated_title[k] = '\0';
 
     printf(
-      "title:%s%s%s| status: %s\n",
+      "%d:%s%s%s| status: %s\n",
       /*PADDING_H,*/
+      i + 1,
       " ",
       formated_title,
       " ",
