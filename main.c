@@ -45,7 +45,10 @@ int main(void)
       print_help();
     }
     else if (op == 'q')
+    {
+      free_tasks_buffer();
       break;
+    }
     else
       handle_op(&op);
   }

@@ -189,13 +189,11 @@ void list_tasks(void)
     formated_title[k] = '\0';
 
     printf(
-      "%d:%s%s%s| status: %s\n",
-      /*PADDING_H,*/
+      "%d|%s%s%s| status: %s\n",
       i + 1,
-      " ",
+      "  ",
       formated_title,
-      " ",
-      /*PADDING_H,*/
+      "  ",
       tasks_buffer[i].status ? "Done" : "Undone"
     );
   }
@@ -253,4 +251,13 @@ void handle_op(char *op)
   }
   
   // free(tasks_buffer);
+}
+
+void free_tasks_buffer(void)
+{
+  if (tasks_buffer)
+  {
+    free(tasks_buffer);
+    tasks_buffer = NULL;
+  }
 }
